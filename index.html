@@ -12,7 +12,7 @@
         :root { --gold: #b5935a; --navy: #1a2a3a; --bg: #fffcf9; }
         body { font-family: 'Georgia', serif; margin: 0; background: var(--bg); color: var(--navy); text-align: center; overflow-x: hidden; }
         
-        /* THE LOADING SCREEN HACK */
+        /* THE P & P LOADING SCREEN */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); display: flex; flex-direction: column;
@@ -20,12 +20,13 @@
             transition: opacity 0.8s ease;
         }
         .monogram {
-            font-size: 5rem; color: var(--gold); border: 2px solid var(--gold);
-            width: 120px; height: 120px; display: flex; justify-content: center;
+            font-size: 2.5rem; color: var(--gold); border: 2px solid var(--gold);
+            width: 140px; height: 140px; display: flex; justify-content: center;
             align-items: center; border-radius: 50%; margin-bottom: 20px;
             animation: pulse 2s infinite ease-in-out;
+            font-family: 'Times New Roman', serif;
         }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
         /* HERO AREA */
         .hero { padding: 60px 20px; background: white; opacity: 0; transform: translateY(20px); transition: all 1s ease; }
@@ -40,7 +41,7 @@
         .time-box { background: white; padding: 10px; border-radius: 8px; min-width: 65px; border: 1px solid #f0e6d2; }
         .time-num { display: block; font-size: 1.4rem; font-weight: bold; color: var(--gold); font-family: sans-serif; }
 
-        /* GALLERY (Lazy Loaded) */
+        /* GALLERY */
         .gallery { column-count: 2; column-gap: 10px; padding: 15px; }
         .gallery img { width: 100%; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: none; }
     </style>
@@ -48,8 +49,8 @@
 <body>
 
     <div id="loader">
-        <div class="monogram">P</div>
-        <p style="letter-spacing: 3px; color: var(--gold); font-size: 0.7rem; text-transform: uppercase;">Pinnacoli</p>
+        <div class="monogram">P & P</div>
+        <p style="letter-spacing: 3px; color: var(--gold); font-size: 0.75rem; text-transform: uppercase;">Pinnacoli & Pacovsky</p>
     </div>
 
     <div class="hero" id="main-content">
