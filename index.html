@@ -8,12 +8,12 @@
         :root { --gold: #b5935a; --navy: #1a2a3a; --bg: #fffcf9; }
         body { font-family: 'Georgia', serif; margin: 0; background: var(--bg); color: var(--navy); text-align: center; }
         .hero { padding: 60px 20px; background: white; }
-        .names { font-size: 3rem; margin: 10px 0; color: var(--gold); font-weight: normal; line-height: 1.2; }
-        .last-name { font-family: sans-serif; letter-spacing: 8px; text-transform: uppercase; font-size: 0.9rem; color: #888; margin-bottom: 20px; display: block; }
+        .names { font-size: 2.8rem; margin: 10px 0; color: var(--gold); font-weight: normal; line-height: 1.2; }
+        .last-name { font-family: sans-serif; letter-spacing: 6px; text-transform: uppercase; font-size: 0.8rem; color: #888; margin-bottom: 20px; display: block; }
         
-        /* Featured Photos */
-        .featured-row { display: flex; gap: 10px; padding: 0 10px; margin-bottom: 10px; }
-        .featured-row img { width: 50%; height: 350px; object-fit: cover; border-radius: 8px; background: #eee; }
+        /* Highlighted Photos */
+        .featured-row { display: flex; gap: 10px; padding: 0 10px; margin-bottom: 15px; }
+        .featured-row img { width: 50%; height: 350px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #eee; }
 
         /* Countdown */
         .countdown { display: flex; justify-content: center; gap: 10px; margin: 30px 0; }
@@ -23,12 +23,13 @@
 
         /* Venue Info */
         .venue-section { padding: 50px 20px; background: white; margin: 20px 0; border-top: 1px solid #f0e6d2; border-bottom: 1px solid #f0e6d2; }
+        h2 { font-weight: normal; color: var(--gold); font-size: 1.8rem; margin-bottom: 5px; }
         
-        /* Gallery */
+        /* Gallery Grid */
         .gallery { column-count: 2; column-gap: 10px; padding: 15px; }
-        .gallery img { width: 100%; margin-bottom: 10px; border-radius: 8px; display: block; background: #eee; }
+        .gallery img { width: 100%; margin-bottom: 10px; border-radius: 8px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        .btn { background: var(--gold); color: white; padding: 18px 40px; text-decoration: none; border-radius: 50px; display: inline-block; margin: 30px 0; font-weight: bold; font-family: sans-serif; }
+        .btn { background: var(--gold); color: white; padding: 18px 40px; text-decoration: none; border-radius: 50px; display: inline-block; margin: 30px 0; font-weight: bold; font-family: sans-serif; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -36,11 +37,11 @@
     <div class="hero">
         <span class="last-name">The Future</span>
         <h1 class="names">Frank & Stephanie</h1>
-        <span class="last-name">Pinnacoli</span>
+        <span class="last-name">Pacovsky-Pinnacoli</span>
         
         <div class="featured-row">
-            <img class="smart-img" data-name="IMG_1058" alt="Frank and Stephanie">
-            <img class="smart-img" data-name="IMG_1062" alt="Frank and Stephanie">
+            <img class="smart-img" data-name="IMG_1058" alt="Highlight 1">
+            <img class="smart-img" data-name="IMG_1062" alt="Highlight 2">
         </div>
 
         <div class="countdown">
@@ -53,41 +54,63 @@
     <div class="venue-section">
         <h2>December 6, 2026</h2>
         <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: #888;">The Westmoreland Club</p>
-        <p>Wilkes-Barre, Pennsylvania</p>
+        <p>59 S Franklin St<br>Wilkes-Barre, Pennsylvania</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Westmoreland+Club+Wilkes-Barre" target="_blank" class="btn" style="padding: 12px 25px; margin-top: 10px; font-size: 0.8rem;">View Map</a>
     </div>
 
-    <div class="gallery">
-        <img class="smart-img" data-name="IMG_1059">
-        <img class="smart-img" data-name="IMG_1060">
-        <img class="smart-img" data-name="IMG_1061">
-        <img class="smart-img" data-name="IMG_1063">
-    </div>
+    <p style="font-style: italic; color: #888;">Our Moments</p>
+    <div class="gallery" id="photo-gallery">
+        </div>
+
+    <footer style="padding: 60px 40px; color: #bbb; font-size: 0.8rem; background: white;">
+        © 2026 Frank & Stephanie
+    </footer>
 
     <script>
         // 1. Countdown Logic
         const target = new Date("December 6, 2026 00:00:00").getTime();
-        setInterval(() => {
+        function updateTimer() {
             const now = new Date().getTime();
             const diff = target - now;
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        }, 1000);
+            document.getElementById('days').innerText = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+            document.getElementById('hours').innerText = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            document.getElementById('mins').innerText = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-        // 2. Smart Image Finder (Checks jpeg, then jpg, then HEIC)
-        const extensions = ['.jpeg', '.JPEG', '.jpg', '.JPG', '.HEIC', '.heic'];
-        document.querySelectorAll('.smart-img').forEach(img => {
-            const baseName = img.getAttribute('data-name');
-            let index = 0;
+        // 2. Smart Image Loader for mixed JPG/HEIC files
+        const extensions = ['.JPG', '.HEIC', '.jpeg', '.jpg', '.png'];
+        const photoNumbers = [
+            '0183', '0245', '1065', '1131', '1702', '1931', '1996', 
+            '2026', '2050', '2147', '3481', '5135', '5378', '5658', 
+            '5702', '5707', '6070', '6284', '6457', '6460', '6723', 
+            '6796', '6956'
+        ];
 
-            function tryNext() {
-                if (index >= extensions.length) return;
-                img.src = baseName + extensions[index];
-                index++;
+        function loadSmartImage(imgElement, baseName) {
+            let extIndex = 0;
+            function tryLoad() {
+                if (extIndex >= extensions.length) return;
+                imgElement.src = baseName + extensions[extIndex];
+                extIndex++;
             }
+            imgElement.onerror = tryLoad;
+            imgElement.onload = () => imgElement.style.display = 'block';
+            tryLoad();
+        }
 
-            img.onerror = tryNext; // If image fails to load, try the next extension
-            tryNext(); // Start the first attempt
+        // Load Top 2 Highlights
+        document.querySelectorAll('.smart-img').forEach(img => {
+            loadSmartImage(img, img.getAttribute('data-name'));
+        });
+
+        // Load the rest into the gallery
+        const container = document.getElementById('photo-gallery');
+        photoNumbers.forEach(num => {
+            const newImg = document.createElement('img');
+            container.appendChild(newImg);
+            loadSmartImage(newImg, 'IMG_' + num);
         });
     </script>
 </body>
