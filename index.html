@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Pinnacoli Wedding | Dec 6, 2026</title>
+    
+    <title>Pinnacoli - Pacovsky Wedding</title>
+    <meta property="og:title" content="Pinnacoli - Pacovsky Wedding">
+    <meta property="og:description" content="December 6, 2026 • Westmoreland Club">
+    
     <style>
         :root { --gold: #b5935a; --navy: #1a2a3a; --bg: #fffcf9; }
         body { font-family: 'Georgia', serif; margin: 0; background: var(--bg); color: var(--navy); text-align: center; overflow-x: hidden; }
@@ -38,7 +42,7 @@
 
         /* GALLERY (Lazy Loaded) */
         .gallery { column-count: 2; column-gap: 10px; padding: 15px; }
-        .gallery img { width: 100%; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: opacity 0.5s; }
+        .gallery img { width: 100%; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: none; }
     </style>
 </head>
 <body>
@@ -65,14 +69,22 @@
         </div>
     </div>
 
+    <div class="venue-section" style="padding: 40px 20px;">
+        <h2 style="font-weight: normal; color: var(--gold); font-size: 1.8rem;">December 6, 2026</h2>
+        <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: #888;">The Westmoreland Club</p>
+        <p>Wilkes-Barre, Pennsylvania</p>
+    </div>
+
     <div class="gallery" id="photo-gallery"></div>
 
+    <footer style="padding: 60px 40px; color: #bbb; font-size: 0.8rem; background: white;">
+        © 2026 Frank & Stephanie
+    </footer>
+
     <script>
-        // 1. Image Data
         const extensions = ['.JPG', '.HEIC', '.jpeg', '.jpg'];
         const photoNumbers = ['0183', '0245', '1065', '1131', '1702', '1931', '1996', '2026', '2050', '2147', '3481', '5135', '5378', '5658', '5702', '5707', '6070', '6284', '6457', '6460', '6723', '6796', '6956'];
 
-        // 2. Load Highlights FIRST
         let loadedCount = 0;
         function loadHero(id, base) {
             let img = document.getElementById(id);
@@ -94,32 +106,30 @@
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('main-content').classList.add('visible');
-                loadGallery(); // Start loading the rest only after hero is seen
+                loadGallery();
             }, 800);
         }
 
-        // Start loading the two main ones
         loadHero('high1', 'IMG_1058');
         loadHero('high2', 'IMG_1062');
 
-        // 3. Lazy Load Gallery
         function loadGallery() {
             const container = document.getElementById('photo-gallery');
             photoNumbers.forEach(num => {
                 const img = document.createElement('img');
-                img.loading = "lazy"; // Native browser lazy loading
+                img.loading = "lazy";
                 let extIdx = 0;
                 function tryNext() {
                     if(extIdx >= extensions.length) return;
                     img.src = 'IMG_' + num + extensions[extIdx++];
                 }
                 img.onerror = tryNext;
+                img.onload = () => img.style.display = 'block';
                 container.appendChild(img);
                 tryNext();
             });
         }
 
-        // 4. Countdown
         const target = new Date("December 6, 2026 00:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
